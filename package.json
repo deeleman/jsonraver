@@ -1,0 +1,29 @@
+{
+  "name": "jsonraver",
+  "version": "0.0.0",
+  "description": "A simple NodeJS utility module to consume one or several different RestFUL JSON services and manage the async return of each one by means of a simple API.",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deeleman/jsonraver.git"
+  },
+  "main" : "./lib/main",
+  "keywords": [
+    "json",
+    "request",
+    "get",
+    "batch",
+    "async"
+  ],
+  "dependencies" : {
+    "request" :  "2.11.x"
+  },
+  "devDependencies": {
+    "mocha" :  "1.6.x",
+    "express" :  "3.0.x"
+  },
+  "author": "Pablo Deeleman",
+  "license": "BSD"
+}
