@@ -20,6 +20,9 @@ describe('JsonRaver', function() {
             capital : 'London',
             latitude : '51.506944',
             longitude : '-0.1275'
+        },
+        'mock5' : {
+            errors : ['Error A', 'Error B']
         }
     };
 
@@ -28,6 +31,18 @@ describe('JsonRaver', function() {
 
         app.get('/mocks/:id', function(req, res, next) {
             res.json(mocks['mock' + req.params.id.toString()]);
+        });
+        
+        app.get('/noresponse', function(req, res, next) {
+            // nothing happens
+        });
+        
+        app.get('/error500', function(req, res, next) {
+            res.send(500, { error: 'something blew up' });
+        });
+        
+        app.get('/nojson', function(req, res, next) {
+            res.send(200, 'Sorry! No JSON data available here.');
         });
 
         app.listen(8080);
@@ -131,12 +146,64 @@ describe('JsonRaver', function() {
                 done();
             });
         }); 
+        
     });
     
     describe('error handling', function() {
-        it('should honour a fail callback on any of its arguments and trigger it when that specific request raises an error');
+                
+        it('should return an error if no response is returned', function(done) {
+            
+            this.timeout(12000);
+            
+            jsonraver('http://localhost:8080/noresponse', function(err, data) {
+                assert.equal(err[0].message.indexOf('ETIMEDOUT') > 0, true, 'An ETIMEDOUT error will be returned from the server ');
+                done();
+            });
+        });
         
-        it('Return error object chlid nodes should inclue a "requestId" parameter matching the identifier or number of the request causing the error');
+        it('should return an error when the service to be consumed returns a http status other than 200', function(done) {
+            jsonraver('http://localhost:8080/error500', function(err, data) {
+                assert.equal(err[0].httpStatus, 500, 'An error object is returned including the origin error HTTP status');
+                done();
+            });
+        });
+        
+        it('should return an error if the message returned cannot be parsed as JSON', function(done) {
+            jsonraver('http://localhost:8080/nojson', function(err, data) {
+                assert.ok(err, 'The module threw an exception and wrapped it up inside an error object');
+                assert.equal(err[0].message.indexOf('Unexpected token') > 0, true, 'The "unexpected token" exception is found in the error message');
+                done();
+            });
+        });
+        
+        it('should forward the error retrieved in the JSON response', function(done) {
+            jsonraver('http://localhost:8080/mocks/5', function(err, data) {
+                assert.ok(err, 'The module threw an exception and wrapped it up inside an error object');
+                done();
+            });
+        });
+        
+        it('should honour a fail callback on any of its arguments and trigger it when that specific request raises an error', function(done) {
+            var request1 = {
+                    id : 'Spain',
+                    uri : 'http://localhost:8080/mocks/3'
+                },
+                request2 = {
+                    id : 'UK',
+                    uri : 'http://localhost:8080/mocks/45646',
+                    fail : function(err, req) {
+                        assert.ok(err, 'Detailed error information is returned');
+                        assert.deepEqual(request2, req, 'The error callback returns ');
+                        done();
+                    }
+                };
+                
+            jsonraver([request1, request2], function(err, data) {
+                return;
+            });
+        });
+        
+        it('child nodes in returned error object should include a "requestId" parameter matching the identifier or number of the request causing the error');
     });
 });
 
