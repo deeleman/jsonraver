@@ -38,7 +38,7 @@ describe('JsonRaver', function() {
     describe('parameter test', function() {
 
         it('should accept a string as an argument and return an actual JSON object', function(done) {
-            jsonraver('http://localhost:8080/mocks/1', function(data) {
+            jsonraver('http://localhost:8080/mocks/1', function(err, data) {
                 assert.deepEqual(data[0], mocks.mock1, 'The module did not returned the expected mock');
                 done();
             });
@@ -49,7 +49,7 @@ describe('JsonRaver', function() {
                 uri : 'http://localhost:8080/mocks/1'
             };
 
-            jsonraver(request, function(data) {
+            jsonraver(request, function(err, data) {
                 assert.deepEqual(data[0], mocks.mock1, 'The module did not returned the expected mock');
                 done();
             });
@@ -61,15 +61,15 @@ describe('JsonRaver', function() {
                 '1' : mocks.mock2
             };
 
-            jsonraver(request, function(data) {
+            jsonraver(request, function(err, data) {
                 assert.deepEqual(data, expected, 'The module did not returned the expected mock');
                 done();
             });
         });
 
         it('should require at least a valid url as a string parameter', function(done) {
-            jsonraver('localhost:8080/mocks/1', function(data) {
-                assert.ok(data.jsonraver_errors, 'The module did not returned an actual "jsonraver_errors" property within the output object');
+            jsonraver('localhost:8080/mocks/1', function(err, data) {
+                assert.ok(err, 'The module returned an actual populated error object within its callback');
                 done();
             });
         });
@@ -77,8 +77,8 @@ describe('JsonRaver', function() {
         it('should require valid urls when an array of urls are passed by', function(done) {
             var request = ['localhost:8080/mocks/1', 'localhost:8080/mock2'];
 
-            jsonraver(request, function(data) {
-                assert.ok(data.jsonraver_errors, 'The module did not returned the expected mock');
+            jsonraver(request, function(err, data) {
+                assert.ok(err, 'The module returned an actual populated error object within its callback');
                 done();
             });
         });
@@ -90,8 +90,8 @@ describe('JsonRaver', function() {
                 uri : 'localhost:8080/mocks/2'
             }];
 
-            jsonraver(request, function(data) {
-                assert.ok(data.jsonraver_errors, 'The module did not returned the expected mock');
+            jsonraver(request, function(err, data) {
+                assert.ok(err, 'The module did not returned the expected mock');
                 done();
             });
         });
@@ -110,34 +110,43 @@ describe('JsonRaver', function() {
             }],
                 expected = { Spain : mocks.mock3, UK : mocks.mock4 };
 
-            jsonraver(request, function(data) {
+            jsonraver(request, function(err, data) {
                 assert.deepEqual(data, expected, 'The module did not returned the expected mock');
                 done();
             });
         });
         
 
-        it('if identifiers added, each one must be unique'); 
+        it('if identifiers added, each one must be unique', function(done) {
+            var request = [{
+                id : 'UK',
+                uri : 'http://localhost:8080/mocks/3'
+            }, {
+                id : 'UK',
+                uri : 'http://localhost:8080/mocks/4'
+            }];
 
-        it('should trigger the global callback once all requests have been accomplished succesfully or not');
-
-        it('should honour a fail callback on any of its arguments');
-
-        it('failed requests should include detailed error information');
+            jsonraver(request, function(err, data) {
+                assert.ok(err, 'The module threw an exception and wrapped it up inside an error object');
+                done();
+            });
+        }); 
+    });
+    
+    describe('error handling', function() {
+        it('should honour a fail callback on any of its arguments and trigger it when that specific request raises an error');
         
-        it('Return object containing failed requests should include a "jsonraver_errors" object with a summary including');
-        
-        it('if identifiers added, no identifier can be named after "jsonraver_errors"');
+        it('Return error object chlid nodes should inclue a "requestId" parameter matching the identifier or number of the request causing the error');
     });
 });
 
 // Usage:
 /*
- * jsonraver('http://www.domain.com/data.json', callback(data, err));
- * jsonraver(['http://www.domain.com/data.json', 'http://www.domain.com/moredata.json'], callback(data, err));
- * jsonraver({ uri: 'http://www.domain.com/data.json' }, callback(data, err));
- * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo' }, callback(data, err));
- * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(errors){ ... } }, callback(data, err));
- * jsonraver([{ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(errors){ ... } }, { uri: 'http://www.domain.com/moredata.json', nodeName: 'morefoo' }], callback(data, err));
+ * jsonraver('http://www.domain.com/data.json', callback(err, result));
+ * jsonraver(['http://www.domain.com/data.json', 'http://www.domain.com/moredata.json'], callback(err, result));
+ * jsonraver({ uri: 'http://www.domain.com/data.json' }, callback(err, result));
+ * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo' }, callback(err, result));
+ * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(err, sender){ ... } }, callback(err, result));
+ * jsonraver([{ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(err, sender){ ... } }, { uri: 'http://www.domain.com/moredata.json', nodeName: 'morefoo' }], callback(err, result));
  *
  */

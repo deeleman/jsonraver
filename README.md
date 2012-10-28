@@ -1,4 +1,4 @@
 jsonraver
 =========
 
-A simple NodeJS utility module to consume one or several different RestFUL JSON services simultaneously with the simplest API
+A simple NodeJS utility module to perform one or several different GET requests to third party JSON services simultaneously with the simplest API
