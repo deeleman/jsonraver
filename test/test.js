@@ -203,7 +203,28 @@ describe('JsonRaver', function() {
             });
         });
         
-        it('child nodes in returned error object should include a "requestId" parameter matching the identifier or number of the request causing the error');
+        it('child nodes in returned error object should include a "requestId" parameter matching the number/sorting order of the request raising the error', function(done) {                
+            jsonraver(['http://localhost:8080/mocks/3', 'http://localhost:8080/mocks/45646'], function(err, data) {
+                assert.deepEqual(err[0].requestId, '1', 'The module returned an error with the same requestID number of the buggy request call');
+                done();
+            });
+        });
+        
+        it('child nodes in returned error object should include a "requestId" parameter matching the identifier of the request raising the error', function(done) {
+            var request1 = {
+                    id : 'Spain',
+                    uri : 'http://localhost:8080/mocks/3'
+                },
+                request2 = {
+                    id : 'UK',
+                    uri : 'http://localhost:8080/mocks/45646'
+                };
+                
+            jsonraver([request1, request2], function(err, data) {
+                assert.deepEqual(err[0].requestId, 'UK', 'The module returned an error with the same requestID name of the buggy request call');
+                done();
+            });
+        });
     });
 });
 
