@@ -7,9 +7,7 @@ An easy-to-use Node.js utility module for performing one or multiple async GET r
 
 ----------
 
-# About JSON Raver #
-
-## Why JSON Raver? ##
+# Why JSON Raver? #
 
 Node.js is cool when it comes to consuming web services thanks to its awesome architecture and the impressive module ecosystem around it, featuring excellent tools such as [HTTP](http://nodejs.org/api/http.html "HTTP") or [Request](https://github.com/mikeal/request) (JSON Raver leverages the latter to perform all GET requests - Thanks [Mikeal](https://github.com/mikeal)!). But whoever has felt in the need to consume more than one service at once and therefore build a composite JSON message with all the information returned knows that avoiding the infamous [callback hell](http://callbackhell.com/) is a pain in the ass. 
 
@@ -63,7 +61,7 @@ The `geodata` variable would be populated with the following fixture content. Th
 
 ## Performing composite JSON GET requests ##
 
-Now we are ging to push our example one step forward by requesting the two GEO data services mentioned above. For doing so, we include an array of URIs instead of a plain string.
+Now we are going to push our example one step forward by requesting the two GEO data services mentioned above. For doing so, we include an array of URIs instead of a plain string.
 
 ```javascript
 var webServices = [
