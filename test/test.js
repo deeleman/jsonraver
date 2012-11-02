@@ -183,7 +183,26 @@ describe('JsonRaver', function() {
             });
         });
         
-        it('should honour a fail callback on any of its arguments and trigger it when that specific request raises an error', function(done) {
+        it('should honour a per request callback on any of its arguments and trigger it when that specific request is complete', function(done) {
+            var request1 = {
+                    id : 'Spain',
+                    uri : 'http://localhost:8080/mocks/3'
+                },
+                request2 = {
+                    id : 'UK',
+                    uri : 'http://localhost:8080/mocks/4',
+                    onComplete : function(err, data) {
+                        assert.deepEqual(data, mocks.mock4, 'The onComplete callback returns the object corresponding to the call including it');
+                        done();
+                    }
+                };
+                
+            jsonraver([request1, request2], function(err, data) {
+                return;
+            });
+        });
+        
+        it('should honour a per request callback on any of its arguments and include any eventual error details if the requests could not be accomplished succesfully', function(done) {
             var request1 = {
                     id : 'Spain',
                     uri : 'http://localhost:8080/mocks/3'
@@ -191,9 +210,8 @@ describe('JsonRaver', function() {
                 request2 = {
                     id : 'UK',
                     uri : 'http://localhost:8080/mocks/45646',
-                    fail : function(err, req) {
+                    onComplete : function(err, data) {
                         assert.ok(err, 'Detailed error information is returned');
-                        assert.deepEqual(request2, req, 'The error callback returns ');
                         done();
                     }
                 };
@@ -227,14 +245,3 @@ describe('JsonRaver', function() {
         });
     });
 });
-
-// Usage:
-/*
- * jsonraver('http://www.domain.com/data.json', callback(err, result));
- * jsonraver(['http://www.domain.com/data.json', 'http://www.domain.com/moredata.json'], callback(err, result));
- * jsonraver({ uri: 'http://www.domain.com/data.json' }, callback(err, result));
- * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo' }, callback(err, result));
- * jsonraver({ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(err, sender){ ... } }, callback(err, result));
- * jsonraver([{ uri: 'http://www.domain.com/data.json', nodeName: 'foo', fail: function(err, sender){ ... } }, { uri: 'http://www.domain.com/moredata.json', nodeName: 'morefoo' }], callback(err, result));
- *
- */
