@@ -38,8 +38,7 @@ For all our examples we will figure out that we need to consume 2 separate REST 
 Let's figure out you want to consume the coordinates of London from our example GEO data service.
 
 ```javascript
-var jsonraver = require('jsonraver'),
-	geodata;
+var jsonraver = require('jsonraver'), geodata;
 
 jsonraver('http://www.example.com/geo/coords/london.json', function(err, data) {
 	if(err) {
@@ -160,8 +159,8 @@ If we define an `onComplete` callback on any of our requests, the returning erro
 
 ```javascript
 {
-	httpStatus: [HTTP status returned by the remote JSON web service, if any],
-	message: [detailed error message here]
+	httpStatus: [HTTP integer status returned by the remote JSON web service if any],
+	message: '[Detailed error message here]'
 }
 
 ```
