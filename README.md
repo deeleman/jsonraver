@@ -26,6 +26,12 @@ Node.js is cool when it comes to consuming web services thanks to its awesome ar
 - You need to consume data served in a format other than JSON.
 - You want to execute a *fire & forget* GET request. JSON Raver will require a callback to be defined in its payload (regardless the callback provided in the payload is populated or not)
 
+## Installation ##
+
+```javascript
+npm install jsonraver
+```
+
 ----------
 # How to Use JSON Raver#
 
