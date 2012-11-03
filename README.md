@@ -1,4 +1,4 @@
-JSON Raver
+JSON Raver [![endorse](http://api.coderwall.com/deeleman/endorsecount.png)](http://coderwall.com/deeleman)
 =========
 
 An easy-to-use Node.js utility module for performing one or multiple async GET requests to third party JSON web services simultaneously though a simple API with batch-request functionality.
@@ -34,7 +34,7 @@ Via [npm](http://github.com/isaacs/npm):
 npm install jsonraver
 ```
 
-Note: JSON Raver requires [mocha](https://github.com/visionmedia/mocha) to run the unit tests, but you won't need it for just using the module.
+**Note:** JSON Raver requires [mocha](https://github.com/visionmedia/mocha) to run the unit tests, but you won't need it for just using the module.
 
 ----------
 # How to Use JSON Raver#
@@ -183,9 +183,9 @@ var webServices = [
 		id: 'coords', 
 		uri: 'http://www.example.com/geo/coords/london.json', 
 		onComplete: function(err, data) { 
-				// We manage both the error and data handling inside this callback
-			} 
-		},
+			// We manage both the error and data handling inside this callback
+		} 
+	},
 	{ 
 		id: 'population', 
 		uri: 'http://www.bad-domain.com/returns/nothing' 
