@@ -28,5 +28,9 @@
     "express" :  "3.0.x"
   },
   "author": "Pablo Deeleman <deeleman@gmail.com>",
-  "license": "BSD"
+  "licenses" :
+  [ { "type" : "BSD"
+    , "url" : "https://github.com/deeleman/jsonraver/raw/master/LICENSE"
+    }
+  ]
 }
