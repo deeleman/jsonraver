@@ -15,9 +15,9 @@ Node.js is cool when it comes to consuming web services thanks to its awesome ar
 
 **JSON Raver is for you if...**
 
-- Consume several web services at once and render a web page with all the information gathered in a single object.
-- Fetch data from different JSON sources and provide graceful fallbacks when one or some of those sources fail returning data.
-- Turn asyncronous consumption of spare web services into a single asyncronous action.
+- You want to consume several web services at once and render a web page with all the information gathered in a single object.
+- You need to fetch data from different JSON sources and provide graceful fallbacks when one or some of those sources fail returning data.
+- You prefer to turn asyncronous consumption of spare web services into a single asyncronous action.
 
 **JSON Raver is *NOT* for you if...**
 
@@ -77,7 +77,7 @@ Now we are going to push our example one step forward by requesting the two GEO 
 var webServices = [
 	'http://www.example.com/geo/coords/london.json', 
 	'http://www.example.com/geo/demographics/london.json'
-	];
+];
 
 jsonraver(webServices, function(err, data) {
 	// Error handling removed for brevity's sake
