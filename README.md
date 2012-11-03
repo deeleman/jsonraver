@@ -1,4 +1,4 @@
-JSON Raver [![endorse](http://api.coderwall.com/deeleman/endorsecount.png)](http://coderwall.com/deeleman)
+<span style="float:right;">[![endorse](http://api.coderwall.com/deeleman/endorsecount.png)](http://coderwall.com/deeleman)</span> JSON Raver 
 =========
 
 An easy-to-use Node.js utility module for performing one or multiple async GET requests to third party JSON web services simultaneously though a simple API with batch-request functionality.
