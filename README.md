@@ -109,7 +109,7 @@ All blocks will keep the same sorting order in which the requests were made insi
 var webServices = [
 	{ id: 'coords', uri: 'http://www.example.com/geo/coords/london.json' },
 	{ id: 'population', uri: 'http://www.example.com/geo/demographics/london.json' }
-	];
+];
 
 jsonraver(webServices, function(err, data) {
 	// Error handling removed for brevity's sake
@@ -145,9 +145,9 @@ var webServices = [
 		id: 'coords', 
 		uri: 'http://www.example.com/geo/coords/london.json', 
 		onComplete: function(err, data) { 
-				// We manage both the error and data handling inside this callback
-			} 
-		},
+		    // We manage both the error and data handling inside this callback
+		} 
+	},
 	{ 
 		id: 'population', 
 		uri: 'http://www.example.com/geo/demographics/london.json' 
@@ -175,7 +175,7 @@ If we define an `onComplete` callback on any of our requests, the returning erro
 
 ### Anatomy of errors returned in the global callback ###
 
-The format is pretty much the same we've just seen above with only one remarkable difference: The callback returns an array of error objects (one per each failed request) instead of a single object and each error object contains a `requestId` property so we can easily match each error with its corresponding request. Let's perform a composite call with a wrong URI:
+The format is pretty much the same we´ve just seen above with only one remarkable difference: The callback returns an array of error objects (one per each failed request) instead of a single object and each error object contains a `requestId` property so we can easily match each error with its corresponding request. Let's perform a composite call with a wrong URI:
 
 ```javascript
 var webServices = [
