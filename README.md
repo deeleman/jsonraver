@@ -27,11 +27,17 @@ Node.js is cool when it comes to consuming web services thanks to its awesome ar
 
 Via [npm](http://github.com/isaacs/npm):
 
-```javascript
-npm install jsonraver
+```bash
+$ npm install jsonraver
 ```
 
-**Note:** JSON Raver requires [mocha](https://github.com/visionmedia/mocha) to run the unit tests, but you won't need it for just using the module.
+## Running the tests
+
+JSON Raver requires [mocha](https://github.com/visionmedia/mocha) to run the unit tests, and its installed as a dev dependency upon running `npm install`. In order to run the tests just execute the following:
+
+```bash
+$ npm test
+```
 
 ## Usage
 
